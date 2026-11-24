@@ -62,8 +62,8 @@ body.alarm #beacon .halo{animation:halo .55s ease-in-out infinite alternate}
 body.alarm #status{color:var(--red);animation:bellr .5s steps(2,jump-none) infinite}
 
 /* ---------- Consola de controls ---------- */
-#console{flex:0 0 auto;display:grid;gap:8px;grid-template-columns:1fr 1fr 1fr;
-  grid-template-areas:"start start start" "mode mode thr" "test mute set";
+#console{flex:0 0 auto;display:grid;gap:8px;grid-template-columns:1fr 1fr 1fr 1fr;
+  grid-template-areas:"start start mode mode" "thr thr thr thr" "test test mute set";
   background:rgba(10,9,8,.55);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
   border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:10px}
 button{font:inherit;color:#e8ecf5;background:linear-gradient(180deg,#2e3442,#1c202a);border:1px solid rgba(255,255,255,.12);
@@ -74,27 +74,42 @@ button:active{filter:brightness(1.3)}
 #modeSeg{grid-area:mode;display:flex;background:#12151c;border-radius:13px;padding:3px;gap:3px;border:1px solid rgba(255,255,255,.08)}
 #modeSeg button{flex:1;background:transparent;border:0;min-height:38px;font-size:14px;color:#8d97ad}
 #modeSeg button.sel{background:#2f3850;color:#fff}
-.stepper{grid-area:thr;display:flex;align-items:center;background:#12151c;border-radius:13px;border:1px solid rgba(255,255,255,.08)}
-.stepper button{min-height:44px;width:34px;padding:0;background:transparent;border:0;font-size:22px}
-.stepper div{flex:1;text-align:center;line-height:1}
-.stepper small{display:block;font-size:9px;letter-spacing:.1em;color:#ff8a8a;text-transform:uppercase}
-.stepper b{font-size:19px}
+.fader{grid-area:thr;display:flex;align-items:center;gap:10px;background:#12151c;border-radius:13px;
+  border:1px solid rgba(255,255,255,.08);padding:4px 12px}
+.fader .fv{flex:none;width:58px;text-align:center;line-height:1}
+.fader small{display:block;font-size:9px;letter-spacing:.12em;color:#ff8a8a;text-transform:uppercase;margin-bottom:2px}
+.fader b{font-size:22px;font-variant-numeric:tabular-nums}.fader b i{font-style:normal;font-size:11px;color:#aab3c7;margin-left:1px}
+.fader .ft{flex:1;position:relative;padding-bottom:12px}
+.fader .ticks{position:absolute;left:13px;right:13px;bottom:0;display:flex;justify-content:space-between;
+  font:700 9px/1 Arial,sans-serif;color:#6f7890}
+.fader .ticks span{width:0;display:flex;justify-content:center}
+#thr{-webkit-appearance:none;appearance:none;width:100%;height:44px;background:transparent;margin:0;accent-color:auto}
+#thr::-webkit-slider-runnable-track{height:8px;border-radius:4px;box-shadow:inset 0 1px 3px rgba(0,0,0,.9);
+  background:linear-gradient(90deg,#1f6b38 0%,#2fbf65 10%,#d6b21e 50%,#e0402b 75%,#8a0f0f 100%)}
+#thr::-moz-range-track{height:8px;border-radius:4px;background:linear-gradient(90deg,#1f6b38 0%,#2fbf65 10%,#d6b21e 50%,#e0402b 75%,#8a0f0f 100%)}
+#thr::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:40px;margin-top:-16px;border-radius:5px;border:1px solid #2a2d31;
+  background:linear-gradient(90deg,#6c7178 0%,#e9ecf0 30%,#b5bac0 48%,#1c1d20 50%,#b5bac0 52%,#e9ecf0 70%,#5d6268 100%);
+  box-shadow:0 3px 6px rgba(0,0,0,.7)}
+#thr::-moz-range-thumb{width:26px;height:40px;border-radius:5px;border:1px solid #2a2d31;
+  background:linear-gradient(90deg,#6c7178 0%,#e9ecf0 30%,#b5bac0 48%,#1c1d20 50%,#b5bac0 52%,#e9ecf0 70%,#5d6268 100%)}
 #testBtn{grid-area:test}#muteBtn{grid-area:mute}#setBtn{grid-area:set}
 #muteBtn.active{background:linear-gradient(180deg,#8a1d1d,#5a0e0e);border-color:#ff5a5a}
+body.alarm #muteBtn{white-space:nowrap;padding:0 4px;background:linear-gradient(180deg,#ff3b3b,#b30d0d);border-color:#ffb0b0;color:#fff;font-weight:800;animation:pulse .5s ease-in-out infinite alternate}
+@keyframes pulse{from{transform:scale(1)}to{transform:scale(1.05)}}
 
 /* ---------- Horitzontal: tot a la vista, sense historial ---------- */
 @media (orientation:landscape) and (max-height:600px){
   body{gap:6px;padding-top:calc(var(--st) + 4px)}
   h1,#histBox{display:none}
   #sceneBox{flex:1 1 auto;aspect-ratio:auto}
-  #console{grid-template-columns:1.4fr 1.3fr 1fr .8fr .8fr .6fr;grid-template-areas:"start mode thr test mute set";padding:6px;border-radius:16px}
+  #console{grid-template-columns:1fr 1fr 2.8fr .9fr 1fr .5fr;grid-template-areas:"start mode thr test mute set";padding:6px;border-radius:16px}
   #console button,#startBtn{min-height:42px;font-size:14px}
   #modeSeg button{min-height:34px}
-  .stepper button{min-height:40px}
+  .fader{padding:0 10px}.fader .ft{padding-bottom:10px}#thr{height:36px}
 }
 @media (orientation:landscape) and (min-height:601px){
   #sceneBox{flex:0 1 auto;max-height:62vh;aspect-ratio:1252/470;width:auto;align-self:center;max-width:100%}
-  #console{max-width:900px;width:100%;align-self:center;grid-template-columns:1.4fr 1.3fr 1fr .8fr .8fr .6fr;grid-template-areas:"start mode thr test mute set"}
+  #console{max-width:900px;width:100%;align-self:center;grid-template-columns:1fr 1fr 2.8fr .9fr 1fr .5fr;grid-template-areas:"start mode thr test mute set"}
 }
 
 /* ---------- Ajustos (full inferior) ---------- */
@@ -208,16 +223,8 @@ body.alarm #flash{animation:flash .5s ease-in-out infinite alternate}
   <rect x="50" y="82" width="934" height="376" rx="18" fill="#030405"/>
 
   <g transform="translate(52 84) scale(.93)">
-    <!-- Bateria -->
-    <g id="battery" style="color:var(--green)" filter="url(#glowS)">
-      <rect x="40" y="38" width="82" height="44" rx="8" fill="none" stroke="currentColor" stroke-width="5"/>
-      <rect x="123" y="50" width="8" height="20" rx="2" fill="currentColor"/>
-      <rect class="bb" x="50" y="47" width="18" height="26" rx="2" fill="currentColor"/>
-      <rect class="bb" x="72" y="47" width="18" height="26" rx="2" fill="currentColor"/>
-      <rect class="bb" x="94" y="47" width="18" height="26" rx="2" fill="currentColor"/>
-    </g>
     <!-- Campana -->
-    <g id="bell" transform="translate(195 60)" style="color:var(--lcd)" fill="none" stroke="currentColor"
+    <g id="bell" transform="translate(75 60)" style="color:var(--lcd)" fill="none" stroke="currentColor"
        stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#glowS)">
       <rect x="-40" y="-36" width="80" height="72" fill="transparent" stroke="none"/>
       <path d="M-15 12 V-2 Q-15 -17 0 -18 Q15 -17 15 -2 V12 L20 17 H-20 Z"/>
@@ -225,6 +232,10 @@ body.alarm #flash{animation:flash .5s ease-in-out infinite alternate}
       <path d="M-24 -9 Q-29 0 -24 9 M24 -9 Q29 0 24 9 M-31 -14 Q-39 0 -31 14 M31 -14 Q39 0 31 14"/>
     </g>
     <g id="faces"></g>
+    <g fill="var(--lcd)" font-family="Arial,Helvetica,sans-serif" font-weight="700" filter="url(#glowS)">
+      <text x="470" y="56" font-size="17" letter-spacing="3" opacity=".7">LÍMIT</text>
+      <text id="limTxt" x="470" y="92" font-size="34">75 dB</text>
+    </g>
     <g id="big" style="color:var(--lcd)" filter="url(#glow)"></g>
     <g id="slowTxt" fill="var(--lcd)" font-family="Arial,Helvetica,sans-serif" font-weight="700" filter="url(#glowS)">
       <rect x="600" y="260" width="120" height="100" fill="transparent"/>
@@ -335,9 +346,11 @@ body.alarm #flash{animation:flash .5s ease-in-out infinite alternate}
 <div id="console">
   <button id="startBtn">🎙️ Engega</button>
   <div id="modeSeg"><button data-mode="slow">SLOW</button><button data-mode="fast">FAST</button></div>
-  <div class="stepper"><button id="thrDn" aria-label="Baixa el llindar">−</button>
-    <div><small>Alarma</small><b id="thrVal">75</b></div>
-    <button id="thrUp" aria-label="Puja el llindar">+</button></div>
+  <div class="fader">
+    <div class="fv"><small>Alarma</small><b id="thrVal">75<i>dB</i></b></div>
+    <div class="ft"><input type="range" id="thr" min="50" max="100" step="1" value="75" aria-label="Llindar d'alarma en decibels">
+      <div class="ticks"><span>50</span><span>60</span><span>70</span><span>80</span><span>90</span><span>100</span></div></div>
+  </div>
   <button id="testBtn">🔊 Prova</button>
   <button id="muteBtn">🔕 1 min</button>
   <button id="setBtn" aria-label="Ajustos">⚙︎</button>
@@ -351,7 +364,7 @@ body.alarm #flash{animation:flash .5s ease-in-out infinite alternate}
   <div class="row col"><div class="lab">Volum de la sirena</div><input type="range" id="vol" min="0" max="1" step="0.05"></div>
   <div class="row"><button id="resetBtn" style="flex:1">↺ Esborra MAX / MIN i historial</button></div>
   <p class="note">Per tenir-la com una app: a Safari, botó Compartir → «Afegeix a la pantalla d'inici». En horitzontal el visor es fa més gran.<br>
-  Si la sirena no sona, puja el volum del mòbil i comprova l'interruptor de silenci. El micròfon del mòbil no és un sonòmetre certificat: compara'l amb un de referència i ajusta el calibratge. Durant cada toc de sirena la mesura es congela perquè l'aparell no es mesuri a si mateix.</p>
+  Si la sirena no sona, puja el volum del mòbil i comprova l'interruptor de silenci. El micròfon del mòbil no és un sonòmetre certificat: compara'l amb un de referència i ajusta el calibratge. Quan salta, l'alarma sona 10 segons si ningú no prem SILENCIA (que també la silencia 1 minut). Mentre sona, la mesura es congela perquè l'aparell no es mesuri a si mateix. El llindar comença sempre a 75 dB (doble toc al valor per tornar-hi).</p>
 </div>
 
 <script>
@@ -410,7 +423,7 @@ function makeFace(cx, cy, r, color, mood) {
   el('path', {d, stroke:'#111', 'stroke-width':r*.1, fill:'none', 'stroke-linecap':'round'}, g);
   return g;
 }
-const faces = [makeFace(292,60,30,'#3fe06a',0), makeFace(402,60,30,'#ffe04a',1), makeFace(512,60,30,'#ff3a2e',2)];
+const faces = [makeFace(180,60,30,'#3fe06a',0), makeFace(290,60,30,'#ffe04a',1), makeFace(400,60,30,'#ff3a2e',2)];
 
 /* columna de LEDs (de baix a dalt, 30 → 100 dB) */
 const ledsG = $('#leds'), leds = [];
@@ -418,9 +431,10 @@ for (let i = 0; i < 20; i++) leds.push(el('rect', {x:1221, y:424 - i*14.2, width
 const ledDb = i => 30 + i * 3.5;
 
 /* ================= Ajustos ================= */
-let settings = {mode:'slow', thr:75, armed:true, cal:0, vol:.9};
+let settings = {mode:'slow', armed:true, cal:0, vol:.9};
 try { Object.assign(settings, JSON.parse(localStorage.getItem('sonometre-dba') || '{}')); } catch (e) {}
-const save = () => { try { localStorage.setItem('sonometre-dba', JSON.stringify(settings)); } catch (e) {} };
+settings.thr = 75;                       // d'entrada, sempre 75 dB
+const save = () => { try { const {thr, ...rest} = settings; localStorage.setItem('sonometre-dba', JSON.stringify(rest)); } catch (e) {} };
 
 /* ================= Àudio ================= */
 const BASE = 110;
@@ -428,8 +442,9 @@ const DEMO = new URLSearchParams(location.search).get('demo');
 let ctx = null, master = null, stream = null, analyser = null, freq = null, weights = null;
 let running = false, started = 0, level = null, lin = {fast:0, slow:0};
 let maxL = -Infinity, minL = Infinity;
-let ringing = false, gated = false, listening = false, listenStart = 0, windowMax = -Infinity;
-let forceUntil = 0, muteUntil = 0, alarmId = 0, active = [];
+const ALARM_S = 10;
+let ringing = false, gated = false, alarmEnd = 0;
+let muteUntil = 0, alarmId = 0, active = [];
 let wakeLock = null;
 
 function ensureCtx() {
@@ -491,7 +506,7 @@ const toDb = x => 10*Math.log10(Math.max(x, 1e-14)) + 3.01 + BASE + settings.cal
 const fromDb = L => Math.pow(10, (L - 3.01 - BASE - settings.cal) / 10);
 function demoLevel(now) {
   const t = now / 1000;
-  if (DEMO === 'alarma') return (t % 40 < 14 ? 58 : 84) + 2.5*Math.sin(t*1.3) + Math.random()*1.5;
+  if (DEMO === 'alarma') return (t % 40 < 6 ? 60 : 84) + 2.5*Math.sin(t*1.3) + Math.random()*1.5;
   return 54 + 7*Math.sin(t/2.7) + 4*Math.sin(t*1.9) + Math.random()*2;
 }
 
@@ -542,35 +557,29 @@ function playBlast() {
 }
 function stopSound() { active.forEach(o => { try { o.stop(); } catch (e) {} }); active = []; }
 
-function startAlarm(test) {
+function startAlarm() {
   if (ringing) return;
-  ringing = true; alarmId++;
-  if (test) forceUntil = performance.now() + 4500;
+  ringing = true; gated = true; alarmId++;
+  const id = alarmId;
+  alarmEnd = performance.now() + ALARM_S * 1000;
   document.body.classList.add('alarm');
-  if (navigator.vibrate) try { navigator.vibrate([500,250,500,250,500]); } catch (e) {}
-  cycle(alarmId);
+  if (navigator.vibrate) try { navigator.vibrate([500,250,500,250,500,250,500]); } catch (e) {}
+  cycle(id);
+  setTimeout(() => { if (ringing && id === alarmId) stopAlarm(); }, ALARM_S * 1000);
   updateUI();
 }
-function cycle(id) {
+function cycle(id) {                       // tocs de sirena seguits fins als 10 s
   if (!ringing || id !== alarmId) return;
-  gated = true; listening = false;
+  if (alarmEnd - performance.now() < 600) return;
   const d = playBlast();
-  setTimeout(() => {
-    if (!ringing || id !== alarmId) return;
-    gated = false; listening = true; listenStart = performance.now(); windowMax = -Infinity;
-    setTimeout(() => decide(id), 1300);
-  }, d*1000 + 250);
-}
-function decide(id) {
-  if (!ringing || id !== alarmId) return;
-  listening = false;
-  const still = (running && settings.armed && windowMax >= settings.thr) || performance.now() < forceUntil;
-  if (still) cycle(id); else stopAlarm();
+  setTimeout(() => cycle(id), d * 1000 + 320);
 }
 function stopAlarm() {
-  ringing = false; gated = false; listening = false; forceUntil = 0; alarmId++;
+  const was = ringing;
+  ringing = false; gated = false; alarmId++;
   stopSound();
   document.body.classList.remove('alarm');
+  if (was && running) { lin = {fast:0, slow:0}; started = performance.now(); }   // mesura nova abans de rearmar
   updateUI();
 }
 
@@ -632,8 +641,7 @@ function tick() {
     const lf = toDb(lin.fast), ls = toDb(lin.slow);
     level = settings.mode === 'slow' ? ls : lf;
     if (now - started > 1500 && !gated) { maxL = Math.max(maxL, level); minL = Math.min(minL, level); }
-    if (listening && now - listenStart > 350) windowMax = Math.max(windowMax, lf);
-    if (settings.armed && !ringing && !gated && now > muteUntil && now - started > 1500 && level >= settings.thr) startAlarm(false);
+    if (settings.armed && !ringing && now > muteUntil && now - started > 1500 && level >= settings.thr) startAlarm();
   }
   const interval = settings.mode === 'slow' ? 250 : 125;
   if (now - lastDisp > interval) {
@@ -644,7 +652,7 @@ function tick() {
   }
   renderFast();
   const sec = Math.floor(Date.now() / 1000);
-  if (sec !== lastSec) { lastSec = sec; renderClock(); renderMute(); }
+  if (sec !== lastSec) { lastSec = sec; renderClock(); renderMute(); if (ringing) updateUI(); }
 }
 const fmt = v => isFinite(v) ? Math.max(0, Math.min(199.9, v)).toFixed(1) : '---.-';
 function renderLevel() {
@@ -657,8 +665,10 @@ function renderLevel() {
   const idx = level == null ? -1 : level < 55 ? 0 : level < settings.thr ? 1 : 2;
   faces.forEach((f, i) => f.setAttribute('opacity', i === idx ? 1 : .13));
   $('#stats').textContent = running
-    ? `MAX ${fmt(maxL)}   MIN ${fmt(minL)}   ALARMA ≥ ${settings.thr}`
-    : `MICRÒFON APAGAT · TOCA ENGEGA   ALARMA ≥ ${settings.thr}`;
+    ? (ringing ? `⚠ ALARMA · ${Math.max(0, Math.ceil((alarmEnd - performance.now())/1000))} s · PREM SILENCIA`
+               : `MAX ${fmt(maxL)}   MIN ${fmt(minL)}`)
+    : (ringing ? `⚠ PROVA D'ALARMA · ${Math.max(0, Math.ceil((alarmEnd - performance.now())/1000))} s` : `MICRÒFON APAGAT · TOCA ENGEGA`);
+  $('#limTxt').textContent = `${settings.thr} dB`;
 }
 const ledColor = db => db < 55 ? '#3fe06a' : db < settings.thr ? '#ffd23a' : '#ff3a2e';
 function renderFast() {
@@ -682,7 +692,7 @@ function renderClock() {
 function renderMute() {
   const b = $('#muteBtn'), left = Math.ceil((muteUntil - performance.now()) / 1000);
   if (left > 0) { b.textContent = `🔕 ${left}s`; b.classList.add('active'); }
-  else { b.textContent = ringing ? '🔕 Para' : '🔕 1 min'; b.classList.toggle('active', ringing); }
+  else { b.textContent = ringing ? '🔕 SILENCIA' : '🔕 1 min'; b.classList.remove('active'); }
 }
 
 /* ================= Temps exterior (Open‑Meteo) ================= */
@@ -710,10 +720,6 @@ function weatherStart() {
   setInterval(() => loadWeather(coords.lat, coords.lon), 15*60*1000);
 }
 
-/* ================= Bateria (si el navegador ho permet) ================= */
-function setBattery(lvl) { document.querySelectorAll('#battery .bb').forEach((b, i) => b.setAttribute('opacity', lvl > i/3 + .05 ? 1 : .12)); }
-if (navigator.getBattery) navigator.getBattery().then(b => { setBattery(b.level); b.addEventListener('levelchange', () => setBattery(b.level)); }).catch(()=>{});
-
 /* ================= Interfície ================= */
 function setStatus(t, cls) { const s = $('#status'); s.textContent = t; s.className = cls || ''; }
 function updateUI() {
@@ -722,35 +728,35 @@ function updateUI() {
   sb.classList.toggle('stop', running);
   document.querySelectorAll('#modeSeg button').forEach(b => b.classList.toggle('sel', b.dataset.mode === settings.mode));
   $('#modeTxt').textContent = settings.mode === 'slow' ? 'SLOW' : 'FAST';
-  $('#thrVal').textContent = settings.thr;
+  $('#thrVal').innerHTML = `${settings.thr}<i>dB</i>`; $('#thr').value = settings.thr;
   $('#armed').checked = settings.armed;
   $('#cal').value = settings.cal; $('#calVal').textContent = (settings.cal >= 0 ? '+' : '') + settings.cal;
   $('#vol').value = settings.vol;
   const bell = $('#bell');
   bell.classList.toggle('off', !settings.armed);
   bell.classList.toggle('ring', ringing);
-  if (ringing) setStatus('⚠ ALARMA · NIVELL CRÍTIC');
+  if (ringing) setStatus(`⚠ ALARMA · ${Math.max(0, Math.ceil((alarmEnd - performance.now())/1000))} s`);
   else if (running) setStatus('● MESURANT', 'ok');
   else if ($('#status').className !== 'err') setStatus('MICRÒFON ATURAT');
   renderLevel(); renderMute(); drawHist();
 }
 function resetStats() { maxL = -Infinity; minL = Infinity; }
 const toggleMic = () => running ? stopMic() : startMic();
-const setThr = v => { settings.thr = Math.max(50, Math.min(100, v)); save(); updateUI(); };
+const setThr = v => { settings.thr = Math.max(50, Math.min(100, Math.round(v))); updateUI(); };
 
 $('#startBtn').onclick = toggleMic;
 $('#micHit').addEventListener('click', toggleMic);
 document.querySelectorAll('#modeSeg button').forEach(b => b.onclick = () => { settings.mode = b.dataset.mode; save(); updateUI(); });
 $('#slowTxt').addEventListener('click', () => { settings.mode = settings.mode === 'slow' ? 'fast' : 'slow'; save(); updateUI(); });
-$('#thrDn').onclick = () => setThr(settings.thr - 1);
-$('#thrUp').onclick = () => setThr(settings.thr + 1);
+$('#thr').addEventListener('input', e => setThr(+e.target.value));
+$('#thrVal').parentElement.addEventListener('dblclick', () => setThr(75));
 const toggleArm = v => { settings.armed = v; save(); if (!v) stopAlarm(); updateUI(); };
 $('#armed').onchange = e => toggleArm(e.target.checked);
 $('#bell').addEventListener('click', () => toggleArm(!settings.armed));
 $('#cal').oninput = e => { settings.cal = +e.target.value; save(); updateUI(); };
 $('#vol').oninput = e => { settings.vol = +e.target.value; save(); if (master) master.gain.value = settings.vol; };
 $('#muteBtn').onclick = () => { stopAlarm(); muteUntil = performance.now() + 60000; renderMute(); };
-$('#testBtn').onclick = () => { ensureCtx(); muteUntil = 0; startAlarm(true); };
+$('#testBtn').onclick = () => { ensureCtx(); muteUntil = 0; startAlarm(); };
 $('#resetBtn').onclick = () => { resetStats(); hist.length = 0; updateUI(); };
 $('#setBtn').onclick = () => document.body.classList.add('sheet');
 $('#closeSheet').onclick = $('#sheetBg').onclick = () => document.body.classList.remove('sheet');
